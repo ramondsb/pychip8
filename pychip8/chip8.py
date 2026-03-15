@@ -185,7 +185,7 @@ class Chip8:
 
         """Calls subroutine at NNN"""
         address = opcode & 0x0FFF
-        self.stack[self.sp] = self.pc
+        self.stack[self.sp] = self.pc + 2  # return address is instruction after the call
         self.sp += 1
         self.pc = address
 
