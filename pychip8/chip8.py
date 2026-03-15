@@ -655,24 +655,17 @@ class Chip8:
 
 
     def update_screen_state(self, x, y, n):
-        # TODO: read n bytes starting at I from memory
+        self.registers[0xF] = 0  # Reset collision flag before drawing
 
-
-        sprites = []
-        for i in range(0, n):
-            sprites.append(self.memory[i])
-
-        # TODO: XOR bytes with screen
         for h in range(0, n):
             mem = self.memory[self.i + h]
             for v in range(0, 8):
                 if (mem & (0x80 >> v)) != 0:
-                    # TODO: Use size definitions
-                    address = v + x + (h + y) * 64
-                    if address > 64 * 32: continue
+                    pixel_x = (x + v) % 64
+                    pixel_y = (y + h) % 32
+                    address = pixel_x + pixel_y * 64
                     old_pixel = self.display[address]
-                    new_pixel = old_pixel ^ 1
-                    self.display[address] = new_pixel
+                    self.display[address] = old_pixel ^ 1
                     if old_pixel == 1:
-                        self.registers[0xf] = 1
+                        self.registers[0xF] = 1  # Collision detected
 
