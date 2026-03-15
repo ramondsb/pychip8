@@ -28,7 +28,7 @@ class Chip8:
                 else:
                     sout += "#"
 
-        print(sout)
+
 
 
     def cycle(self):
@@ -43,8 +43,7 @@ class Chip8:
         if self.sound_timer > 0:
             self.delay_timer -= 1
         if self.sound_timer == 0:
-            #TODO: Integrate sound system
-            print("beep")
+            pass  #TODO: Integrate sound system
 
 
     def get_state(self):
@@ -67,7 +66,7 @@ class Chip8:
 
     def decode_opcode(self, opcode):
         opcode = opcode & 0xffff
-        print("opcode", hex(opcode))
+
 
         def opcode_0x00XX(opcode):
             g2 = {
@@ -176,14 +175,14 @@ class Chip8:
 
 
     def opcode_0x1NNN(self, opcode):
-        print("Executing opcode 1NNN")
+
         """Jumps to address NNN"""
         address = opcode & 0x0FFF
         self.pc = address
 
 
     def opcode_0x2NNN(self, opcode):
-        print("Executing opcode 2NNN")
+
         """Calls subroutine at NNN"""
         address = opcode & 0x0FFF
         self.stack[self.sp] = self.pc
@@ -192,7 +191,7 @@ class Chip8:
 
 
     def opcode_0x3XNN(self, opcode):
-        print("Executing opcode 3XNN")
+
         """Skips the next instruction if VX equals NN"""
         x = (opcode & 0x0F00) >> 8
         nn = opcode & 0x00FF
@@ -205,7 +204,7 @@ class Chip8:
 
 
     def opcode_0x4XNN(self, opcode):
-        print("Executing opcode 4XNN")
+
         """Skips the next instruction if VX doesn't equal NN"""
         x = (opcode & 0x0F00) >> 8
         nn = opcode & 0x00FF
@@ -218,12 +217,12 @@ class Chip8:
 
 
     def opcode_0x5XY0(self, opcode):
-        print("Executing opcode 5XYN")
+
         """Skips the next instruction if VX equals VY"""
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -234,7 +233,7 @@ class Chip8:
 
 
     def opcode_0x6XNN(self, opcode):
-        print("Executing opcode 6XNN")
+
         """Sets VX to NN"""
         x = (opcode & 0x0F00) >> 8
         nn = opcode & 0x00FF
@@ -244,7 +243,7 @@ class Chip8:
 
 
     def opcode_0x7XNN(self, opcode):
-        print("Executing opcode 7XNN")
+
         """Adds NN to VX"""
         x = (opcode & 0x0F00) >> 8
         nn = opcode & 0x00FF
@@ -254,12 +253,12 @@ class Chip8:
 
 
     def opcode_0x8XY0(self, opcode):
-        print("Executing opcode 8XY0")
+
         """Sets VX to the value of VY"""
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vy = self.registers[y]
         self.registers[x] = vy
@@ -267,12 +266,12 @@ class Chip8:
 
 
     def opcode_0x8XY1(self, opcode):
-        print("Executing opcode 8XY1")
+
         """Sets VX to VX or VY"""
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -281,12 +280,12 @@ class Chip8:
 
 
     def opcode_0x8XY2(self, opcode):
-        print("Executing opcode 8XY2")
+
         """Sets VX to VX and VY"""
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -295,12 +294,12 @@ class Chip8:
 
 
     def opcode_0x8XY3(self, opcode):
-        print("Executing opcode 8XY3")
+
         """Sets VX to VX xor VY"""
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -309,12 +308,12 @@ class Chip8:
 
 
     def opcode_0x8XY4(self, opcode):
-        print("Executing opcode 8XY4")
+
         """Adds VY to VX and set carry flag"""
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -331,12 +330,12 @@ class Chip8:
 
 
     def opcode_0x8XY5(self, opcode):
-        print("Executing opcode 8XY5")
+
         """VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't. """
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -353,7 +352,7 @@ class Chip8:
 
 
     def opcode_0x8XY6(self, opcode):
-        print("Executing opcode 8XY6")
+
         """Stores the least significant bit of VX in VF and then shifts VX to the right by 1(Vx is divided by 2)"""
         x = (opcode & 0x0F00) >> 8
 
@@ -370,12 +369,12 @@ class Chip8:
 
 
     def opcode_0x8XY7(self, opcode):
-        print("Executing opcode 8XY5")
+
         """VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't. """
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -392,7 +391,7 @@ class Chip8:
 
 
     def opcode_0x8XYE(self, opcode):
-        print("Executing opcode 8XYE")
+
         """Stores the most significant bit of VX in VF and then shifts VX to the left by 1 (Vx is multiplied by 2)"""
         x = (opcode & 0x0F00) >> 8
 
@@ -411,12 +410,12 @@ class Chip8:
 
 
     def opcode_0x9XY0(self, opcode):
-        print("Executing opcode 9XY0")
+
         """Skips the next instruction if VX doesn't equal VY"""
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
 
-        print("x: {}, y: {}".format(hex(x), hex(y)))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -428,26 +427,26 @@ class Chip8:
 
 
     def sys_address2(self, opcode):
-        print("sys_address2")
+        pass
 
 
     def opcode_00E0(self, opcode):
         """Clear screen"""
-        print("clear screen")
+
         self.display = (64 * 32) * [int("0x00", 16)]
         self.pc += 2
         # TODO: Set draw flag
 
 
     def opcode_0xAXXX(self, opcode):
-        print("Executing opcode AXXX")
+
         address = opcode & 0x0FFF
         self.i = address 
         self.pc += 2
 
 
     def opcode_0xBXXX(self, opcode):
-        print("Executing opcode BXXX")
+
         """Jumps to the address XXX plus V0"""
         address = opcode & 0x0FFF
         v0 = self.registers[0]
@@ -455,7 +454,7 @@ class Chip8:
 
 
     def opcode_0xCXNN(self, opcode):
-        print("Executing opcode CXNN")
+
         """Sets VX to the result of a bitwise AND operation on a random number"""
         x = (opcode & 0x0F00) >> 8
         nn = opcode & 0x00FF
@@ -467,14 +466,14 @@ class Chip8:
 
 
     def opcode_0xDXYN(self, opcode):
-        print("Executing opcode DXYN")
+
         """Display N-byte pattern from coordinate (VX,VY)"""
 
         x = (opcode & 0x0F00) >> 8
         y = (opcode & 0x00F0) >> 4
         n = opcode & 0x000F
 
-        print("x: {}, y: {}, n: {}".format(x, y, n))
+
 
         vx = self.registers[x]
         vy = self.registers[y]
@@ -485,10 +484,10 @@ class Chip8:
 
 
     def opcode_EX9E(self, opcode):
-        print("Executing opcode EX9E")
+
         x = (opcode & 0x0F00) >> 8
         vx = self.registers[x]
-        print("x: {}, vx: {}".format(x, vx))
+
 
         if self.keypad[vx] == True:
             self.pc += 4
@@ -497,11 +496,11 @@ class Chip8:
 
 
     def opcode_EXA1(self, opcode):
-        print("Executing opcode EXA1")
+
         """Skips the next instruction if the key stored in VX isn't pressed"""
         x = (opcode & 0x0F00) >> 8
         vx = self.registers[x]
-        print("x: {}, vx: {}".format(x, vx))
+
 
         if self.keypad[vx] == False:
             self.pc += 4
@@ -510,7 +509,7 @@ class Chip8:
 
 
     def opcode_FX07(self, opcode):
-        print("Executing opcode FX07")
+
         """Sets VX to the value of the delay timer"""
         x = (opcode & 0x0F00) >> 8
 
@@ -520,7 +519,7 @@ class Chip8:
 
 
     def opcode_FX0A(self, opcode):
-        print("Executing opcode FX0A")
+
         """Wait key press and then store in VX"""
 
         def wait_keypress():
@@ -529,22 +528,10 @@ class Chip8:
                 event = pygame.event.wait()
                 if event.type == pygame.KEYDOWN:
                     keys = {
-                        pygame.K_0: 0,
-                        pygame.K_1: 1,
-                        pygame.K_2: 2,
-                        pygame.K_3: 3,
-                        pygame.K_4: 4,
-                        pygame.K_5: 5,
-                        pygame.K_6: 6,
-                        pygame.K_7: 7,
-                        pygame.K_8: 8,
-                        pygame.K_9: 9,
-                        pygame.K_a: 10,
-                        pygame.K_b: 11,
-                        pygame.K_c: 12,
-                        pygame.K_d: 13,
-                        pygame.K_e: 14,
-                        pygame.K_f: 15
+                        pygame.K_1: 0x1, pygame.K_2: 0x2, pygame.K_3: 0x3, pygame.K_4: 0xC,
+                        pygame.K_q: 0x4, pygame.K_w: 0x5, pygame.K_e: 0x6, pygame.K_r: 0xD,
+                        pygame.K_a: 0x7, pygame.K_s: 0x8, pygame.K_d: 0x9, pygame.K_f: 0xE,
+                        pygame.K_z: 0xA, pygame.K_x: 0x0, pygame.K_c: 0xB, pygame.K_v: 0xF,
                     }
 
                     if event.key in keys.keys():
@@ -563,7 +550,7 @@ class Chip8:
 
 
     def opcode_FX15(self, opcode):
-        print("Executing opcode FX15")
+
         """Sets the delay timer to VX"""
 
         x = (opcode & 0x0F00) >> 8
@@ -575,7 +562,7 @@ class Chip8:
 
 
     def opcode_FX18(self, opcode):
-        print("Executing opcode FX18")
+
         """Sets the sound timer to VX"""
 
         x = (opcode & 0x0F00) >> 8
@@ -587,7 +574,7 @@ class Chip8:
 
 
     def opcode_FX1E(self, opcode):
-        print("Executing opcode FX18")
+
         """Adds VX to I"""
 
         x = (opcode & 0x0F00) >> 8
@@ -606,7 +593,7 @@ class Chip8:
 
 
     def opcode_FX29(self, opcode):
-        print("Executing opcode FX29")
+
         """Sets I to the location of the sprite for the character in VX"""
 
         x = (opcode & 0x0F00) >> 8
@@ -618,7 +605,7 @@ class Chip8:
 
 
     def opcode_FX33(self, opcode):
-        print("Executing opcode FX33")
+
         """Stores the binary-coded decimal representation of VX"""
 
         x = (opcode & 0x0F00) >> 8
@@ -636,7 +623,7 @@ class Chip8:
 
 
     def opcode_FX55(self, opcode):
-        print("Executing opcode FX55")
+
         """Stores V0 to VX in memory starting at address I"""
 
         x = (opcode & 0x0F00) >> 8
@@ -648,7 +635,7 @@ class Chip8:
 
 
     def opcode_FX65(self, opcode):
-        print("Executing opcode FX65")
+
         """Fills V0 to VX with values from memory starting at address I"""
 
         x = (opcode & 0x0F00) >> 8
@@ -660,7 +647,7 @@ class Chip8:
 
 
     def opcode_00EE(self, opcode):
-        print("Executing opcode 00EE")
+
         """Return from a subroutine"""
 
         self.pc = self.stack[self.sp - 1]
@@ -669,7 +656,7 @@ class Chip8:
 
     def update_screen_state(self, x, y, n):
         # TODO: read n bytes starting at I from memory
-        print("TODO: update_screen_state")
+
 
         sprites = []
         for i in range(0, n):
