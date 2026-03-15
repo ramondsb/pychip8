@@ -321,7 +321,7 @@ class Chip8:
 
         sum = vx + vy
 
-        self.registers[x] = (sum & 0xFFFF)
+        self.registers[x] = (sum & 0xFF)
 
         if (vx + vy) > 255:
             self.registers[15] = 0x0001 # VF = 1
@@ -343,7 +343,7 @@ class Chip8:
 
         sub = vx - vy
 
-        self.registers[x] = (sub & 0xFFFF)
+        self.registers[x] = (sub & 0xFF)
 
         if vx > vy:
             self.registers[15] = 0x0001 # VF = 1
@@ -382,7 +382,7 @@ class Chip8:
 
         sub = vy - vx
 
-        self.registers[x] = (sub & 0xFFFF)
+        self.registers[x] = (sub & 0xFF)
 
         if vy > vx:
             self.registers[15] = 0x0001 # VF = 1
