@@ -205,7 +205,7 @@ class TestChip8(unittest.TestCase):
         self.chip.pc = 0x200
         self.chip.opcode_0x2NNN(0x2400)
         self.assertEqual(self.chip.pc, 0x400)
-        self.assertEqual(self.chip.stack[0], 0x200)
+        self.assertEqual(self.chip.stack[0], 0x202)  # return address is pc + 2
         self.assertEqual(self.chip.sp, 1)
 
     # 3XNN - Skip if VX == NN
