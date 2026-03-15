@@ -597,7 +597,7 @@ class Chip8:
 
         self.i = (sum & 0xFFFF)
 
-        if sum > 255:
+        if sum > 0xFFF:  # I register is 12-bit, max value is 0xFFF (4095)
             self.registers[15] = 0x0001 # VF = 1
         else:
             self.registers[15] = 0x0000 # VF = 0
