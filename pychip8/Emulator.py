@@ -23,6 +23,7 @@ class Emulator:
         self.HEIGHT = 32
         self.SIZE = [self.WIDTH * self.PIXEL_SIZE, self.HEIGHT * self.PIXEL_SIZE]
         self.MAX_TICKS_PER_SECOND = 60
+        self.CPU_CYCLES_PER_FRAME = 10  # ~600 instructions/second
 
         pygame.init()
 
@@ -49,9 +50,10 @@ class Emulator:
 
             self.handle_keypress()
 
-            self.chip8.run()
+            for _ in range(self.CPU_CYCLES_PER_FRAME):
+                self.chip8.run()
 
-            screen.fill(WHITE)
+            screen.fill(BLACK)
 
             self.draw_screen(screen, self.chip8.display)
 
