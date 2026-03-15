@@ -491,7 +491,7 @@ class Chip8:
         print("x: {}, vx: {}".format(x, vx))
 
         if self.keypad[vx] == True:
-            self.pc + 4
+            self.pc += 4
         else:
             self.pc += 2
 
@@ -504,7 +504,7 @@ class Chip8:
         print("x: {}, vx: {}".format(x, vx))
 
         if self.keypad[vx] == False:
-            self.pc + 4
+            self.pc += 4
         else:
             self.pc += 2
 
