@@ -612,7 +612,7 @@ class Chip8:
         x = (opcode & 0x0F00) >> 8
         vx = self.registers[x]
 
-        self.i = self.memory[vx]
+        self.i = vx * 5
 
         self.pc += 2
 
