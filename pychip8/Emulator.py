@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
+import array
+import math
 import pygame
 import sys
 
@@ -25,7 +27,9 @@ class Emulator:
         self.MAX_TICKS_PER_SECOND = 60
         self.CPU_CYCLES_PER_FRAME = 10  # ~600 instructions/second
 
+        pygame.mixer.init(frequency=44100, size=-16, channels=1, buffer=512)
         pygame.init()
+        self.beep_sound = self._generate_beep(frequency=440, duration=0.1)
 
 
     def run(self):
@@ -53,6 +57,8 @@ class Emulator:
             for _ in range(self.CPU_CYCLES_PER_FRAME):
                 self.chip8.run()
 
+            self.handle_sound()
+
             screen.fill(BLACK)
 
             self.draw_screen(screen, self.chip8.display)
@@ -64,6 +70,22 @@ class Emulator:
         with open(file, "rb") as file:
             return file.read()
 
+
+    def _generate_beep(self, frequency, duration):
+        sample_rate = 44100
+        num_samples = int(sample_rate * duration)
+        buf = array.array('h', [0] * num_samples)
+        for i in range(num_samples):
+            t = i / sample_rate
+            buf[i] = int(32767 * math.sin(2 * math.pi * frequency * t))
+        return pygame.mixer.Sound(buffer=buf)
+
+    def handle_sound(self):
+        if self.chip8.sound_timer > 0:
+            if not pygame.mixer.get_busy():
+                self.beep_sound.play(-1)  # loop until stopped
+        else:
+            self.beep_sound.stop()
 
     def handle_keypress(self):
         keys = pygame.key.get_pressed()
