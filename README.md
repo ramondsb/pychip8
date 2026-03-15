@@ -43,7 +43,7 @@ python pychip8/Emulator "ROM file"
 
 ### Unit Tests
 ```shell
-python -m unittest discover
+python3 -m unittest discover -s tests
 ```
 
 ## Resources
