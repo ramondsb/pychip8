@@ -398,14 +398,14 @@ class Chip8:
 
         vx = self.registers[x]
 
-        msb = 1 << (16 - 1)
+        msb = 1 << 7
 
         most_significant_bit = vx & msb
 
-        self.registers[x] = vx << 1
+        self.registers[x] = (vx << 1) & 0xFF
 
         # Set VF to the most significant bit
-        self.registers[15] = most_significant_bit
+        self.registers[15] = 1 if most_significant_bit else 0
 
         self.pc += 2
 
